@@ -52,20 +52,17 @@ y = y.*mask;
 % [psl,ssl] = psnr1(lct) %double
 % [psf,ssf] = psnr1(fk)  %double
 
-tvprameter = 2e-8; 
 box = drawbox(0.6,3);
 y = permute(y,[3 2 1]);
 grid_z = repmat(linspace(0,1,bin)',[1 N N]);
 y = y.*(grid_z.^4);
 lambdad = 300; lambdax = 1; mu1 = 1; mu2 = 8e2; mu3 = 2;ad = 1e-4; bd = 1.2e-2; au = 6e-4;bu = 3e-4;mu = 0.1;au0 = 1e-5;bu0 = 1e-5;
-tau = tvprameter*sum(y(:));
 tolerance = 1e-6;
 
 tic
 t1=clock;
-[x,iter,objectiveout] = imagecompress(y,A,psf,jit,box,samp,tau,tolerance);
 % [x,iter,objectiveout] = dualdomain(y,psf,jit,samp,lambdad,lambdax,mu,mu1,mu2,mu3,au0,bu0,au,bu,ad,bd,tau,tolerance);
-% [x,iter,objectiveout] = imagedomain(y,psf,jit,box,samp,lambdad,lambdax,mu,mu2,mu3,au0,bu0,ad,bd,tau,tolerance);
+[x,iter,objectiveout] = imagedomain(y,psf,jit,box,samp,lambdad,lambdax,mu,mu2,mu3,au0,bu0,ad,bd,tau,tolerance);
 result = reshape(mtxi*x(:,:),[bin N N]);
 x = result.*(grid_z.^0.5);    % convert signal to t domain
 t2=clock;
